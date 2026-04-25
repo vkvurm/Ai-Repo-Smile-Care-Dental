@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smile Care Dental Clinic — AI Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--c:#1a6fa8;--bg:#0b1410;--card:#111918;--border:rgba(255,255,255,0.07);--text:#e8f0ee;--muted:#6b8a85;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+/* LANDING */
+#landing{min-height:100vh;background:linear-gradient(135deg,#0a1420,#0a2040);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;position:relative;overflow:hidden;}
+#landing::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,0.04) 0%,transparent 70%);pointer-events:none;}
+.l-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 16px;border-radius:30px;font-size:11px;font-weight:600;letter-spacing:1px;margin-bottom:24px;animation:up .6s ease both;}
+.l-icon{font-size:52px;margin-bottom:14px;animation:up .6s .1s ease both;}
+.l-name{font-family:'Syne',sans-serif;font-size:clamp(24px,6vw,46px);font-weight:800;line-height:1.1;color:white;margin-bottom:8px;animation:up .6s .2s ease both;}
+.l-tag{font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:36px;animation:up .6s .3s ease both;}
+.l-features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:32px;animation:up .6s .4s ease both;}
+.l-feat{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 12px;cursor:pointer;transition:all .2s;}
+.l-feat:hover{border-color:rgba(255,255,255,0.25);transform:translateY(-3px);}
+.l-fi{font-size:28px;margin-bottom:8px;}
+.l-fn{font-size:12px;font-weight:700;color:white;}
+.l-fd{font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;}
+.enter-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:14px 36px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all .2s;animation:up .6s .5s ease both;}
+.enter-btn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px);}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* APP */
+#app{display:none;flex-direction:column;min-height:100vh;}
+.topbar{background:#0d1a18;border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.tb-l{display:flex;align-items:center;gap:10px;}
+.tb-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--c);}
+.tb-nm{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:white;}
+.tb-sb{font-size:10px;color:var(--muted);}
+.tb-live{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:#4ade80;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;}
+.ld{width:5px;height:5px;background:#22c55e;border-radius:50%;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.bnav{background:#0d1a18;border-top:1px solid var(--border);display:flex;position:fixed;bottom:0;left:0;right:0;z-index:100;}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,.3);font-family:'DM Sans',sans-serif;transition:color .2s;}
+.bn.active{color:var(--c);}
+.bn-i{font-size:18px;margin-bottom:2px;}
+.bn-l{font-size:9px;font-weight:600;}
+.page{display:none;padding:16px 16px 90px;max-width:480px;margin:0 auto;width:100%;}
+.page.active{display:block;animation:up .25s ease;}
+/* HOME */
+.hero{border-radius:18px;padding:24px 18px;margin-bottom:14px;position:relative;overflow:hidden;background:linear-gradient(135deg,#0a1420,#0a2040);}
+.h-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,.7);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:10px;}
+.hero h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:white;line-height:1.2;margin-bottom:6px;}
+.hero p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5;margin-bottom:16px;}
+.hstats{display:flex;border-top:1px solid rgba(255,255,255,.07);padding-top:12px;}
+.hstat{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
+.hstat:last-child{border:none;}
+.hstat h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:white;}
+.hstat p{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;text-align:center;}
+.fc:hover{border-color:var(--c);transform:translateY(-2px);}
+.fc-i{font-size:22px;margin-bottom:6px;}
+.fc-n{font-size:11px;font-weight:700;color:var(--white);font-family:'Syne',sans-serif;}
+.fc-d{font-size:10px;color:var(--muted);margin-top:2px;}
+.slbl{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:14px 0 8px;}
+.ic{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.ic-lbl{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:2px;}
+.ic-val{font-size:13px;font-weight:600;color:var(--text);}
+.staff-row{display:flex;gap:10px;margin-bottom:14px;}
+.sc{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;}
+.sc-av{width:36px;height:36px;border-radius:9px;background:var(--c);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;opacity:.85;}
+.sc-n{font-size:11px;font-weight:700;color:var(--text);}
+.sc-r{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3;}
+/* WA */
+.wa-wrap{border-radius:14px;overflow:hidden;margin-bottom:10px;}
+.wa-hd{background:#075E54;padding:12px 14px;display:flex;align-items:center;gap:10px;}
+.wa-av{width:34px;height:34px;background:#128C7E;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.wa-nm{font-size:13px;font-weight:700;color:white;}
+.wa-st{font-size:10px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:4px;}
+.wa-sd{width:5px;height:5px;background:#4ade80;border-radius:50%;}
+.wa-body{background:#ECE5DD;padding:12px 10px;min-height:280px;display:flex;flex-direction:column;gap:8px;}
+.wm{display:flex;flex-direction:column;max-width:82%;}
+.wm.bot{align-self:flex-start;}
+.wm.user{align-self:flex-end;}
+.wb{padding:8px 12px;border-radius:10px;font-size:12px;line-height:1.5;}
+.wm.bot .wb{background:white;border-radius:0 10px 10px 10px;color:#1a1a1a;}
+.wm.user .wb{background:#DCF8C6;border-radius:10px 0 10px 10px;color:#1a1a1a;}
+.wt{font-size:9px;color:rgba(0,0,0,.35);margin-top:2px;align-self:flex-end;}
+.wm.bot .wt{align-self:flex-start;}
+.w-typ{display:flex;align-items:center;gap:3px;padding:8px 12px;background:white;border-radius:0 10px 10px 10px;width:fit-content;}
+.w-typ span{width:5px;height:5px;background:#aaa;border-radius:50%;animation:typ 1.2s infinite;}
+.w-typ span:nth-child(2){animation-delay:.2s;}
+.w-typ span:nth-child(3){animation-delay:.4s;}
+@keyframes typ{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+.wqrs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.wqr{background:white;border:1.5px solid #25D366;color:#075E54;font-size:11px;font-weight:600;padding:6px 11px;border-radius:20px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.wqr:hover{background:#25D366;color:white;}
+.w-ir{display:flex;gap:8px;align-items:center;}
+.w-in{flex:1;background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:20px;padding:9px 14px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;color:var(--text);}
+.w-in:focus{border-color:#25D366;}
+.w-snd{width:38px;height:38px;background:#25D366;border:none;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+/* VOICE */
+.vp{background:linear-gradient(145deg,#0b1a18,#0f2d28);border-radius:18px;padding:26px 18px;text-align:center;margin-bottom:14px;}
+.vr{width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;cursor:pointer;transition:all .3s;position:relative;}
+.vr.ringing{animation:vring 1s infinite;border-color:var(--c);}
+.vr.active{background:rgba(255,255,255,.1);border-color:var(--c);}
+@keyframes vring{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.15)}50%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
+.vi{width:66px;height:66px;background:var(--c);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;}
+.vs{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px;}
+.vsb{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:18px;line-height:1.5;}
+.vbtn{background:var(--c);color:white;border:none;padding:11px 26px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all .2s;}
+.vbtn.end{background:#ef4444;}
+.tbox{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;display:none;}
+.tt{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase;}
+.tl{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;}
+.tw{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;flex-shrink:0;margin-top:2px;}
+.tw.ai{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);}
+.tw.caller{background:rgba(224,168,71,.15);color:#e0a847;}
+.tx{font-size:12px;color:var(--text);line-height:1.5;}
+.vfg{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.vf{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
+.vfi{font-size:20px;margin-bottom:5px;}
+.vft{font-size:11px;font-weight:700;color:var(--text);}
+.vfd{font-size:10px;color:var(--muted);margin-top:2px;}
+/* SERVICES */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.sv{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:all .2s;}
+.sv:hover{border-color:var(--c);}
+.sv-i{font-size:22px;margin-bottom:6px;}
+.sv-n{font-size:12px;font-weight:700;color:var(--white);}
+.sv-p{font-size:11px;color:var(--c);font-weight:600;margin-top:3px;}
+/* DASHBOARD */
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.ds{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.ds-n{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--white);}
+.ds-l{font-size:10px;color:var(--muted);margin-top:3px;}
+.ds-c{font-size:10px;color:#22c55e;font-weight:600;margin-top:3px;}
+.af{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);}
+.af:last-child{border:none;}
+.afd{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.afi h4{font-size:12px;font-weight:600;color:var(--text);}
+.afi p{font-size:10px;color:var(--muted);margin-top:1px;}
+.aft{font-size:9px;color:var(--muted);margin-left:auto;flex-shrink:0;}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:#1a2e2a;border:1px solid var(--c);color:var(--c);padding:10px 20px;border-radius:10px;font-size:12px;font-weight:600;transition:transform .3s;z-index:999;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div id="landing">
+  <div class="l-badge">⭐ 4.9 Rating · 760 Reviews</div>
+  <div class="l-icon">😁</div>
+  <div class="l-name">Smile Care Dental Clinic</div>
+  <div class="l-tag">Advanced Implants & Braces — Hosur's Finest</div>
+  <div class="l-features">
+    <div class="l-feat" onclick="goApp('whatsapp')"><div class="l-fi">💬</div><div class="l-fn">WhatsApp AI</div><div class="l-fd">Instant replies 24/7</div></div>
+    <div class="l-feat" onclick="goApp('voice')"><div class="l-fi">📞</div><div class="l-fn">Voice AI</div><div class="l-fd">Answers every call</div></div>
+    <div class="l-feat" onclick="goApp('services')"><div class="l-fi">😁</div><div class="l-fn">Services</div><div class="l-fd">Browse & book</div></div>
+  </div>
+  <button class="enter-btn" onclick="goApp('home')">✨ See Full Demo →</button>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="tb-l">
+      <div class="tb-ic">😁</div>
+      <div><div class="tb-nm">Smile Care Dental Clinic</div><div class="tb-sb">Advanced Implants & Braces — Hosur's Finest</div></div>
+    </div>
+    <div class="tb-live"><div class="ld"></div> AI Active</div>
+  </div>
+
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <div class="h-badge">⭐ 4.9 Rating · 760 Reviews</div>
+      <h2>Your AI Receptionist is Ready</h2>
+      <p>Never lose a patient to a missed call or unanswered WhatsApp again.</p>
+      <div class="hstats">
+        <div class="hstat"><h3>760</h3><p>Google Reviews</p></div>
+        <div class="hstat"><h3>24/7</h3><p>AI Active</p></div>
+        <div class="hstat"><h3>0</h3><p>Missed Calls</p></div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="fc" onclick="switchTab('whatsapp')"><div class="fc-i">💬</div><div class="fc-n">WhatsApp Bot</div><div class="fc-d">Auto-replies & booking 24/7</div></div>
+      <div class="fc" onclick="switchTab('voice')"><div class="fc-i">📞</div><div class="fc-n">Voice AI</div><div class="fc-d">Answers every call instantly</div></div>
+      <div class="fc" onclick="switchTab('services')"><div class="fc-i">😁</div><div class="fc-n">Services</div><div class="fc-d">Browse & book services</div></div>
+      <div class="fc" onclick="switchTab('dashboard')"><div class="fc-i">📊</div><div class="fc-n">Dashboard</div><div class="fc-d">Live activity & stats</div></div>
+    </div>
+    <div class="slbl">Our Specialists</div>
+    <div class="staff-row"><div class="sc"><div class="sc-av">👨‍⚕️</div><div><div class="sc-n">Lead Implantologist</div><div class="sc-r">Specialist in Dental Implants</div></div></div><div class="sc"><div class="sc-av">👩‍⚕️</div><div><div class="sc-n">Orthodontist</div><div class="sc-r">Braces & Invisalign Expert</div></div></div></div>
+    <div class="slbl">Contact & Hours</div>
+    <div class="ic"><div><div class="ic-lbl">Phone</div><div class="ic-val">+91 77081 26800</div></div><span>📞</span></div>
+    <div class="ic"><div><div class="ic-lbl">Hours</div><div class="ic-val">Mon–Sat 10AM–9PM · Sun 10AM–2PM</div></div><span>⏰</span></div>
+    <div class="ic"><div><div class="ic-lbl">Address</div><div class="ic-val">Tank Street, Hosur, Tamil Nadu</div></div><span>📍</span></div>
+  </div>
+
+  <div class="page" id="page-whatsapp">
+    <div class="slbl" style="margin-top:0;">💬 AI WhatsApp Bot — Try it live</div>
+    <div class="wa-wrap">
+      <div class="wa-hd"><div class="wa-av">😁</div><div><div class="wa-nm">Smile Care Dental Clinic</div><div class="wa-st"><div class="wa-sd"></div> AI Online — Instant replies</div></div></div>
+      <div class="wa-body" id="wa-chat"></div>
+    </div>
+    <div class="wqrs" id="wqrs"></div>
+    <div class="w-ir"><input class="w-in" id="wa-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendWA()"><button class="w-snd" onclick="sendWA()">➤</button></div>
+  </div>
+
+  <div class="page" id="page-voice">
+    <div class="slbl" style="margin-top:0;">📞 AI Voice Receptionist</div>
+    <div class="vp">
+      <div class="vr" id="vr" onclick="toggleCall()"><div class="vi" id="vi">📞</div></div>
+      <div class="vs" id="vs">Tap to Simulate a Call</div>
+      <div class="vsb" id="vsb">AI answers every call like a trained receptionist — even at 2am</div>
+      <button class="vbtn" id="vbtn" onclick="toggleCall()">📞 Simulate Incoming Call</button>
+    </div>
+    <div class="tbox" id="tbox"><div class="tt">📝 Live Call Transcript</div><div id="tlines"></div></div>
+    <div class="slbl">What the Voice AI Can Do</div>
+    <div class="vfg">
+      <div class="vf"><div class="vfi">🗓️</div><div class="vft">Book Slots</div><div class="vfd">Checks & confirms instantly</div></div>
+      <div class="vf"><div class="vfi">💰</div><div class="vft">Quote Prices</div><div class="vfd">Answers cost questions</div></div>
+      <div class="vf"><div class="vfi">👤</div><div class="vft">Route to Staff</div><div class="vfd">Connects right person</div></div>
+      <div class="vf"><div class="vfi">🌙</div><div class="vft">24/7 Coverage</div><div class="vfd">Never misses a call</div></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-services">
+    <div class="slbl" style="margin-top:0;">🦷 Treatments & Pricing</div>
+    <div class="sg"><div class="sv"><div class="sv-i">🔩</div><div class="sv-n">Dental Implant</div><div class="sv-p">₹25,000–₹35,000</div></div><div class="sv"><div class="sv-i">😁</div><div class="sv-n">Metal Braces</div><div class="sv-p">₹20,000–₹35,000</div></div><div class="sv"><div class="sv-i">🔲</div><div class="sv-n">Ceramic Braces</div><div class="sv-p">₹30,000–₹45,000</div></div><div class="sv"><div class="sv-i">🌀</div><div class="sv-n">Root Canal</div><div class="sv-p">₹3,500–₹6,000</div></div><div class="sv"><div class="sv-i">👑</div><div class="sv-n">Crown</div><div class="sv-p">₹5,000–₹8,000</div></div><div class="sv"><div class="sv-i">🪥</div><div class="sv-n">Cleaning</div><div class="sv-p">₹800–₹1,200</div></div><div class="sv"><div class="sv-i">✨</div><div class="sv-n">Smile Design</div><div class="sv-p">₹15,000–₹50,000</div></div><div class="sv"><div class="sv-i">🩺</div><div class="sv-n">Consultation</div><div class="sv-p">Free/₹200</div></div></div>
+  </div>
+
+  <div class="page" id="page-dashboard">
+    <div class="slbl" style="margin-top:0;">📊 Live Dashboard</div>
+    <div class="dg">
+      <div class="ds"><div class="ds-n">38</div><div class="ds-l">WhatsApp Msgs Today</div><div class="ds-c">↑ 8 from yesterday</div></div>
+      <div class="ds"><div class="ds-n">14</div><div class="ds-l">Calls Handled by AI</div><div class="ds-c">↑ 4 from yesterday</div></div>
+      <div class="ds"><div class="ds-n">7</div><div class="ds-l">Appointments Booked</div><div class="ds-c">↑ 2 from yesterday</div></div>
+      <div class="ds"><div class="ds-n">0</div><div class="ds-l">Missed Calls</div><div class="ds-c">✓ AI handled all</div></div>
+    </div>
+    <div class="slbl">Live Activity Feed</div>
+    <div class="ic" style="flex-direction:column;align-items:flex-start;padding:0;overflow:hidden;"><div id="afeed" style="width:100%;padding:4px 14px;"></div></div>
+  </div>
+
+  <div class="bnav">
+    <button class="bn active" onclick="st('home')" id="tab-home"><div class="bn-i">🏠</div><div class="bn-l">Home</div></button>
+    <button class="bn" onclick="st('whatsapp')" id="tab-whatsapp"><div class="bn-i">💬</div><div class="bn-l">WhatsApp</div></button>
+    <button class="bn" onclick="st('voice')" id="tab-voice"><div class="bn-i">📞</div><div class="bn-l">Voice AI</div></button>
+    <button class="bn" onclick="st('services')" id="tab-services"><div class="bn-i">😁</div><div class="bn-l">Services</div></button>
+    <button class="bn" onclick="st('dashboard')" id="tab-dashboard"><div class="bn-i">📊</div><div class="bn-l">Dashboard</div></button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const waWelcome = "\ud83d\udc4b Welcome to *Smile Care Dental Clinic*!\n\nAdvanced implant & braces specialists. How can I help?\n\n\u2022 \ud83d\udcc5 Book appointment\n\u2022 \ud83d\udd29 Implant info\n\u2022 \ud83d\ude01 Braces & Invisalign\n\u2022 \u23f0 Clinic hours";
+const waReplies = {"implant": "Dental Implants at Smile Care:\n\n\ud83d\udcb0 *\u20b925,000 \u2013 \u20b935,000* per implant\n\u2705 500+ successful cases\n\nFree consultation available!", "braces": "Braces at Smile Care:\n\n\ud83d\udcb0 Metal: *\u20b920,000 \u2013 \u20b935,000*\n\ud83d\udcb0 Ceramic: *\u20b930,000 \u2013 \u20b945,000*\n\nShall I book an evaluation?", "book": "I'll book your appointment! \ud83d\udcc5\n\n1. Dental Implant\n2. Braces\n3. Root Canal\n4. General Checkup", "timing": "\u23f0 Smile Care Hours:\n\n\ud83d\udcc5 Mon\u2013Sat: 10AM\u20139PM\n\u2600\ufe0f Sunday: 10AM\u20132PM\n\n\ud83d\udcde +91 77081 26800", "price": "Treatment Prices:\n\n\ud83d\udd39 Consultation: \u20b9200\n\ud83d\udd39 Implant: \u20b925,000\u2013\u20b935,000\n\ud83d\udd39 Metal Braces: \u20b920,000\u2013\u20b935,000\n\ud83d\udd39 Root Canal: \u20b93,500\u2013\u20b96,000"};
+const waQRs = ["\ud83d\udcc5 Book Appointment", "\ud83d\udd29 Implant Info", "\ud83d\ude01 Braces Cost", "\u23f0 Timings", "\ud83d\udcb0 All Prices"];
+const callScript = [{"who": "ai", "text": "Thank you for calling Smile Care Dental Clinic! How may I help you?"}, {"who": "caller", "text": "Hello, I want to know about dental implants."}, {"who": "ai", "text": "Dental implants at Smile Care start from \u20b925,000. We've completed 500+ successful cases. Free consultation available!"}, {"who": "caller", "text": "Can I get a free consultation this week?"}, {"who": "ai", "text": "We have Thursday at 6:00 PM. Shall I confirm?"}, {"who": "caller", "text": "Yes, name is Suresh."}, {"who": "ai", "text": "Done, Suresh! Thursday 6:00 PM \u2014 free implant consultation. You'll get a WhatsApp confirmation!"}];
+const activity = [{"dot": "\ud83d\udcde", "bg": "rgba(99,179,237,0.1)", "title": "Call \u2014 Implant Inquiry", "sub": "AI explained pricing & booked consultation", "time": "5m ago"}, {"dot": "\ud83d\udcac", "bg": "rgba(0,201,167,0.1)", "title": "WhatsApp \u2014 Braces Query", "sub": "AI quoted ceramic braces: \u20b930,000\u2013\u20b945,000", "time": "22m ago"}, {"dot": "\ud83d\uddd3\ufe0f", "bg": "rgba(224,168,71,0.1)", "title": "Appointment Confirmed \u2014 Suresh", "sub": "Thursday 6PM \u2014 Free Implant Consultation", "time": "45m ago"}, {"dot": "\ud83d\udcde", "bg": "rgba(99,179,237,0.1)", "title": "Call at 9:15 PM \u2014 After Hours", "sub": "AI answered, scheduled callback", "time": "7h ago"}];
+
+function goApp(tab){document.getElementById('landing').style.display='none';document.getElementById('app').style.display='flex';initWA();initDash();st(tab);}
+function st(tab){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.bn').forEach(b=>b.classList.remove('active'));document.getElementById('page-'+tab).classList.add('active');const bt=document.getElementById('tab-'+tab);if(bt)bt.classList.add('active');}
+
+function initWA(){
+  const chat=document.getElementById('wa-chat');
+  if(chat.children.length>0)return;
+  addMsg('bot',waWelcome,'9:30 AM');
+  const qrs=document.getElementById('wqrs');
+  waQRs.forEach(q=>{const b=document.createElement('button');b.className='wqr';b.textContent=q;b.onclick=()=>{document.getElementById('wa-input').value=q;sendWA();};qrs.appendChild(b);});
+}
+
+function addMsg(who,text,time){
+  const chat=document.getElementById('wa-chat');
+  const d=document.createElement('div');d.className='wm '+who;
+  d.innerHTML=`<div class="wb">${text.replace(/\n/g,'<br>').replace(/\*(.*?)\*/g,'<b>$1</b>')}</div><div class="wt">${time} ${who==='user'?'✓✓':''}</div>`;
+  chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+}
+
+function sendWA(){
+  const input=document.getElementById('wa-input');
+  const msg=input.value.trim();if(!msg)return;
+  input.value='';
+  const now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  addMsg('user',msg,now);
+  const chat=document.getElementById('wa-chat');
+  const typ=document.createElement('div');typ.className='wm bot';
+  typ.innerHTML='<div class="w-typ"><span></span><span></span><span></span></div>';
+  chat.appendChild(typ);chat.scrollTop=chat.scrollHeight;
+  setTimeout(()=>{
+    typ.remove();
+    const key=msg.toLowerCase().replace(/[?!]/g,'').trim();
+    let reply=`Thanks! We'll assist you at *${document.querySelector('.tb-nm').textContent}* shortly.\n\n📞 +91 77081 26800`;
+    for(const k of Object.keys(waReplies)){if(key.includes(k)){reply=waReplies[k];break;}}
+    addMsg('bot',reply,now);
+  },1300);
+}
+
+let callActive=false,callTimer=null;
+function toggleCall(){if(!callActive)startCall();else endCall();}
+function startCall(){
+  callActive=true;
+  const vr=document.getElementById('vr'),vi=document.getElementById('vi');
+  vr.classList.add('ringing');
+  document.getElementById('vs').textContent='Incoming Call...';
+  document.getElementById('vsb').textContent='AI is answering...';
+  document.getElementById('vbtn').textContent='🔴 End Call';
+  document.getElementById('vbtn').className='vbtn end';
+  const box=document.getElementById('tbox');box.style.display='block';
+  document.getElementById('tlines').innerHTML='';
+  let i=0;
+  function next(){
+    if(i>=callScript.length||!callActive)return;
+    if(i===0){vr.classList.remove('ringing');vr.classList.add('active');vi.textContent='🎙️';document.getElementById('vs').textContent='AI Receptionist Active';}
+    const line=callScript[i];
+    const el=document.createElement('div');el.className='tl';
+    el.innerHTML=`<span class="tw ${line.who}">${line.who==='ai'?'AI':'Caller'}</span><span class="tx">${line.text}</span>`;
+    document.getElementById('tlines').appendChild(el);
+    document.getElementById('tlines').scrollTop=9999;
+    i++;callTimer=setTimeout(next,line.who==='ai'?2800:1800);
+  }
+  setTimeout(next,700);
+}
+function endCall(){
+  callActive=false;clearTimeout(callTimer);
+  const vr=document.getElementById('vr'),vi=document.getElementById('vi');
+  vr.classList.remove('ringing','active');vi.textContent='📞';
+  document.getElementById('vs').textContent='Tap to Simulate a Call';
+  document.getElementById('vsb').textContent='AI answers every call like a trained receptionist — even at 2am';
+  document.getElementById('vbtn').textContent='📞 Simulate Again';
+  document.getElementById('vbtn').className='vbtn';
+  showToast('✅ Appointment booked automatically by AI!');
+}
+
+function initDash(){
+  const feed=document.getElementById('afeed');
+  if(feed.children.length>0)return;
+  activity.forEach(a=>{
+    const el=document.createElement('div');el.className='af';
+    el.innerHTML=`<div class="afd" style="background:${a.bg}">${a.dot}</div><div class="afi"><h4>${a.title}</h4><p>${a.sub}</p></div><div class="aft">${a.time}</div>`;
+    feed.appendChild(el);
+  });
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+</script>
+</body>
+</html>
